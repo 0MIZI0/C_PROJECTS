@@ -3,11 +3,11 @@
 
 typedef char element;	// 데크 원소(element)의 자료형을 char로 정의
 
-typedef struct DQNode {	// 이중 연결 리스트 데크의 노드 구조를 구조체로 정의
+typedef struct DQNode{	// 이중 연결 리스트 데크의 노드 구조를 구조체로 정의
 	element data;
 	struct DQNode* llink;
 	struct DQNode* rlink;
-} DQNode;
+}DQNode;
 
 typedef struct {       // 데크에서 사용하는 포인터 front와 rear를 구조체로 정의
 	DQNode* front, * rear;
@@ -48,65 +48,136 @@ int main(void)
 // 공백 데크를 생성하는 연산
 DQueType* createDQue() {
 	// 코드 작성
+	DQueType* DQ = (DQueType*)malloc(sizeof(DQueType));
+	DQ->front = NULL;
+	DQ->rear = NULL;
+	return DQ;
 }
 
 // 데크가 공백 상태인지 검사하는 연산
 int isDeQEmpty(DQueType* DQ) {
 	// 코드 작성
-    return(DQ->front == NULL) ? 1 : 0;
+	return (DQ->front == NULL) ? 1 : 0;
 }
 
 // 데크의 front 앞으로 원소를 삽입하는 연산
 void insertFront(DQueType* DQ, element item) {
 	// 코드 작성
-    DQNode* new = (DQNode*)malloc(sizeof(DQNode));
-    new->data = item;
-
-    if(isDeQEmpty()){
-        new->llink = new->rlink = NULL;
-        DQ->front = DQ->rear = new;
-    }
-    else{
-        new->llink = NULL;
-        new->rlink = DQ->front;
-        DQ->front->rlink = 
-    }
-
+	DQNode* newNode = (DQNode*)malloc(sizeof(DQNode));
+	newNode->data = item;
+	if(isDeQEmpty(DQ)){
+		DQ->front = newNode;
+		DQ->rear = newNode;
+		newNode->rlink = NULL;
+		newNode->llink = NULL;
+	}
+	else{
+		DQ->front->llink = newNode;
+		newNode->rlink = DQ->front;
+		newNode->llink = NULL;
+		DQ->front = newNode;
+	}
 }
 
 // 데크의 rear 뒤로 원소를 삽입하는 연산
 void insertRear(DQueType* DQ, element item) {
 	// 코드 작성
+	DQNode* newNode = (DQNode*)malloc(sizeof(DQNode));
+	newNode->data = item;
+	if(isDeQEmpty(DQ)){
+		DQ->front = newNode;
+		DQ->rear = newNode;
+		newNode->rlink = NULL;
+		newNode->llink = NULL;
+	}
+	else{
+		DQ->rear->rlink = newNode;
+		newNode->rlink = NULL;
+		newNode->llink = DQ->rear;
+		DQ->rear = newNode;
+	}
 }
 
 // 데크의 front 노드를 삭제하고 반환하는 연산
 element deleteFront(DQueType* DQ) {
 	// 코드 작성
+	DQNode* old = DQ->front;
+	element item;
+	if(isDeQEmpty(DQ)){
+		printf("DeQue is Empty!");
+		return -1;
+	}
+	else {
+		item = old->data;
+		if(DQ->front->rlink == NULL){
+			DQ->front = NULL;
+			DQ->rear = NULL;
+		}
+		else{
+			DQ->front = DQ->front->rlink;
+			DQ->front->llink = NULL;
+		}
+		free(old);
+		return item;
+	}
 }
 
 // 데크의 rear 노드를 삭제하고 반환하는 연산
 element deleteRear(DQueType* DQ) {
 	// 코드 작성
+	DQNode* old = DQ->rear;
+	element item;
+	if(isDeQEmpty(DQ)){
+		printf("DeQue is Empty!");
+	}
+	else{
+		if(DQ->rear->llink == NULL){
+			DQ->front = NULL;
+			DQ->rear = NULL;
+		}
+		else{
+			DQ->rear = DQ->rear->llink;
+			DQ->rear->rlink = NULL;
+		}
+		free(old);
+		return item;
+	}
 }
 
 // 데크의 front 노드의 데이터 필드를 반환하는 연산
 element peekFront(DQueType* DQ) {
 	// 코드 작성
+	element item;
+	if(isDeQEmpty(DQ)){
+		printf("DeQue is Empty!");
+	}
+	else{
+		item = DQ->front->data;
+		return item;
+	}
 }
 
 // 데크의 rear 노드의 데이터 필드를 반환하는 연산
 element peekRear(DQueType* DQ) {
 	// 코드 작성
+	element item;
+	if(isDeQEmpty(DQ)){
+		printf("DeQue is Empty!");
+	}
+	else{
+		item = DQ->rear->data;
+		return item;
+	}
 }
 
 // 데크의 front 노드부터 rear 노드까지 출력하는 연산
 void printDQ(DQueType* DQ) {
 	// 코드 작성
-    DQNode* tmp = DQ->front;
-    printf("DeQue : [ ");
-    while(tmp){
-        printf("%c", tmp->data);
-        tmp = tmp->rlink;
-    }
-    printf(" ]");
+	DQNode* tmp = DQ->front;
+	printf("Deque : [ ");
+	while(tmp){
+		printf("%3c",tmp->data);
+		tmp = tmp->rlink;
+	}
+	printf(" ] ");
 }
