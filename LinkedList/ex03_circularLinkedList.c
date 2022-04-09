@@ -6,11 +6,11 @@
 typedef struct ListNode {
 	char data[4];
 	struct ListNode* link;
-} listNode;
+}listNode;
 
 typedef struct {
 	listNode* head;
-} linkedList_h;
+}linkedList_h;
 
 linkedList_h* createLinkedList_h(void);
 void printList(linkedList_h* CL);
