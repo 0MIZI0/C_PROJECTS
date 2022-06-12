@@ -17,7 +17,7 @@ int top = -1;
 
 int main(void) {
     
-    char str[100], rev_str[100] = "";
+    element str[100], rev_str[100] = "";
 
     printf("** 스택을 이용한 역순 문자열 **\n");
     printf("문자열 입력 : ");

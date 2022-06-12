@@ -92,6 +92,7 @@ void insertNode(linkedList_h* L, listNode* pre, char* x)
     }
     else if(pre == NULL){
         newNode->llink = NULL;
+        L->head->llink = newNode;
         newNode->rlink = L->head;
         L->head = newNode;
     }
