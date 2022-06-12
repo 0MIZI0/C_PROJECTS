@@ -1,8 +1,8 @@
 //백준 1158 - 요세푸스 문제
 #include <stdio.h>
-#define MAX 5000
+#define MAX 5001
 
-int queue[MAX + 1];
+int queue[MAX];
 int front = 0, rear=0, size=0;
 
 // 원형 큐 push
